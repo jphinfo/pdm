@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
 
         primarySwatch: Colors.orange,
       ),
-      home: MyHomePage(title: 'Home'),
+      home: MyHomePage(title: 'Home Page'),
     );
   }
 }
@@ -37,6 +37,7 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+
   @override
   Widget build(BuildContext context) {
     
@@ -46,7 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Center(
-  
+
         child: Column(
     
           mainAxisAlignment: MainAxisAlignment.center,
@@ -65,7 +66,8 @@ class _MyHomePageState extends State<MyHomePage> {
         onPressed: _incrementCounter,
         tooltip: 'Increment',
         child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
+      
     );
   }
 }

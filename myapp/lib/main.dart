@@ -1,73 +1,115 @@
 import 'package:flutter/material.dart';
+import 'models/item.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(App());
 
-class MyApp extends StatelessWidget {
-
+class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Meu App',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-
         primarySwatch: Colors.orange,
       ),
-      home: MyHomePage(title: 'Home Page'),
+      home: HomePage(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+class HomePage extends StatefulWidget {
+  var items = new List<Item>();
 
-  final String title;
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-
-      _counter++;
-    });
+  HomePage() {
+    items = [];
+    items.add(Item(title: "Arroz", done: true));
+    items.add(Item(title: "Feijão", done: false));
+    items.add(Item(title: "Farinha", done: true));
+    items.add(Item(title: "Banana", done: true));
+    items.add(Item(title: "Melancia", done: true));
+    items.add(Item(title: "Laranja", done: false));
+    items.add(Item(title: "Batata", done: true));
   }
 
+  @override
+  _HomePageState createState() => _HomePageState();
+}
 
+class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       appBar: AppBar(
-
-        title: Text(widget.title),
+        title: const Text("TodoList"),
+        actions: <Widget>[
+          Icon(Icons.local_grocery_store),
+        ],
       ),
-      body: Center(
-
-        child: Column(
-    
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'Você apertou o butão tantas vezes:',
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: const <Widget>[
+            DrawerHeader(
+              decoration: BoxDecoration(color: Colors.orange),
+              child: Text(
+                'Setting',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                ),
+              ),
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.display1,
+            ListTile(
+              leading: Icon(Icons.payment),
+              title: Text('Pagamento'),
+            ),
+            ListTile(
+              leading: Icon(Icons.email),
+              title: Text('email'),
+            ),
+            ListTile(
+              leading: Icon(Icons.account_circle),
+              title: Text("Profile"),
+            ),
+            ListTile(
+              leading: Icon(Icons.settings),
+              title: Text("Settings"),
             ),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
+      body: ListView.builder(
+        itemCount: widget.items.length,
+        itemBuilder: (BuildContext contxt, int index) {
+          final item = widget.items[index];
+          return CheckboxListTile(
+            title: Text(item.title),
+            key: Key(item.title),
+            value: item.done,
+            onChanged: (value) {
+              setState(() {
+                item.done = value;
+              });
+            },
+          );
+        },
       ),
-      
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            title: Text('Home'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.business),
+            title: Text('Business'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.school),
+            title: Text('School'),
+          ),
+        ],
+      ),
     );
   }
 }
